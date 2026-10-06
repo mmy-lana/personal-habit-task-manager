@@ -1,0 +1,21 @@
+{
+  "name": "@repo/shared-dto",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./common": "./src/common/index.ts",
+    "./habits": "./src/habits/index.ts",
+    "./tasks": "./src/tasks/index.ts",
+    "./users": "./src/users/index.ts"
+  },
+  "dependencies": {
+    "class-transformer": "latest",
+    "class-validator": "latest"
+  },
+  "devDependencies": {
+    "@repo/tsconfig": "workspace:*",
+    "typescript": "latest"
+  }
+}

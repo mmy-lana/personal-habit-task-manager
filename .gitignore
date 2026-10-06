@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build artifacts
+dist/
+build/
+out/
+.turbo/
+
+# Angular / NestJS compile caches
+.angular/
+.cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System
+.DS_Store
+Thumbs.db
+
+# IDE configuration
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+#repomix
+repomix-output.xml
