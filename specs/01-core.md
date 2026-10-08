@@ -164,3 +164,17 @@ export interface RefreshTokenRequestDto {
   refreshToken?: string;
 }
 ```
+
+### 6. Local Development Identity Seeding (SEC-01)
+
+- On database initialization/migration, a default development user row MUST be seeded into the `users` table with the fixed UUID `00000000-0000-0000-0000-000000000000` (email `dev@local.internal`, first name `Local`, last name `Developer`).
+- The seed MUST be idempotent: `INSERT ... ON CONFLICT (id) DO NOTHING`.
+- In non-auth development mode, all foreign keys bound to `users(id)` MUST resolve against this row, preventing foreign key lockout on insert.
+
+### 7. Atomic Optimistic Concurrency Enforcement (DATA-01)
+
+- Optimistic concurrency (`clientUpdatedAt`) MUST be enforced atomically inside the `UPDATE` statement itself, never via a separate read-then-write check:
+  ```sql
+  UPDATE tasks SET ... WHERE id = :id AND user_id = :userId AND updated_at = :clientUpdatedAt
+  ```
+- If the statement affects 0 rows while `clientUpdatedAt` was supplied, the repository MUST raise a `ConflictError` (→ HTTP 409) immediately, eliminating the TOCTOU race condition inherent to `SELECT`-then-`UPDATE` sequences.

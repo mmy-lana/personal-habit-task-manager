@@ -286,7 +286,8 @@ export class CreateProjectDto {
 ### 5. Edge Cases & Error Boundaries
 
 - **Cascade Invalidation**: If an associated Project is soft-deleted or removed, foreign key integrity sets `tasks.project_id` to `NULL` via `ON DELETE SET NULL`, retaining existing task items without data loss.
-- **Stale State Recovery**: Both general task modifications (`PATCH /api/v1/tasks/:id` using `UpdateTaskDto`) and status transitions (`PATCH /api/v1/tasks/:id/status` using `UpdateTaskStatusDto`) enforce optimistic concurrency. When `clientUpdatedAt` is provided, the backend compares it against the database `updated_at` column within the transaction. If `clientUpdatedAt` is older than `updated_at`, the transaction aborts with HTTP 409 Conflict, directing the Angular Signal Store to revert local optimistic state and re-fetch latest server records.
+- **Stale State Recovery**: Both general task modifications (`PATCH /api/v1/tasks/:id` using `UpdateTaskDto`) and status transitions (`PATCH /api/v1/tasks/:id/status` using `UpdateTaskStatusDto`) enforce optimistic concurrency atomically: when `clientUpdatedAt` is provided, it is applied directly in the `UPDATE ... WHERE id = :id AND user_id = :userId AND updated_at = :clientUpdatedAt` predicate. If the update affects 0 rows, the backend aborts with HTTP 409 Conflict, directing the Angular Signal Store to revert local optimistic state and re-fetch latest server records.
+- **SQL-Side Filtering & Pagination (DATA-02)**: Task filtering (`projectId`, `status`, `priority`) and pagination MUST be evaluated in SQL by the database engine via dynamic Drizzle `where` conditions (`and(...)`), never by filtering rows in application heap memory after an unbounded `SELECT`. PostgreSQL performs the projection and row selection.
 - **Overdue Date Handling**: Server filters evaluate overdue tasks where `due_date < NOW()` AND `status != 'COMPLETED'` to generate explicit priority warnings without relying on client local clocks.
 
 ### 6. Mobile-First Responsive Layout & Interactions
@@ -296,3 +297,7 @@ export class CreateProjectDto {
 - **430px Viewport**: Project label and priority badge sit side-by-side without line wrapping.
 - **768px Viewport**: Dual mode toggle made available: "List View" or "Compact Board" (2 columns: To Do / Done).
 - **1024px+ Viewport**: High-density 5-column corporate Kanban board layout (Backlog, Todo, In Progress, In Review, Completed). Drag-and-drop handles maintain keyboard accessible buttons alongside pointer listeners.
+
+### 7. Mobile Touch Target Requirements (UX-01)
+
+- The `TaskCardComponent` status `<select>` element MUST maintain a minimum interactive height of 44px (`h-11 min-h-[44px] min-w-[44px]`), replacing the legacy 36px (`h-9`) sizing, to guarantee a compliant touch target on mobile viewports from 360px up.

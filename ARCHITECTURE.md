@@ -168,3 +168,16 @@ export interface ApiResponseEnvelope<T> {
 - Rate Limiting: `@nestjs/throttler` configured with 100 requests per minute per IP for standard endpoints, 5 requests per minute for authentication endpoints.
 - CORS Policy: Strict origins whitelist binding to Vercel deployment URL and local development hosts.
 - Content Security Policy: Strict CSP headers enforced via Helmet middleware (`default-src 'self'`).
+
+### 5. Local Development Environment
+
+#### 5.1 Database Container (Docker Compose)
+- A `docker-compose.yml` in the project root provisions a `postgres:16-alpine` container on port `5432` with a `pg_isready` healthcheck.
+- Default credentials match `.env.example`: `POSTGRES_USER=neondb_owner`, `POSTGRES_PASSWORD=password`, `POSTGRES_DB=neondb`. Local `DATABASE_URL`: `postgresql://neondb_owner:password@localhost:5432/neondb`.
+- Workflow: `docker compose up -d` (or `pnpm db:up`) → `pnpm db:migrate` (applies Drizzle migrations and seeds the dev identity) → `pnpm dev`.
+
+#### 5.2 Development Identity Seeding (SEC-01)
+- On database migration/initialization, an idempotent seed (`ON CONFLICT (id) DO NOTHING`) inserts the default development user into `users` with fixed UUID `00000000-0000-0000-0000-000000000000` (email `dev@local.internal`, firstName `Local`, lastName `Developer`), so all `user_id` foreign keys resolve in non-auth development mode.
+
+#### 5.3 Atomic Optimistic Concurrency (DATA-01)
+- All optimistic-concurrency writes enforce freshness in SQL via the atomic predicate `WHERE id = :id AND user_id = :userId AND updated_at = :clientUpdatedAt`; a 0-row result raises `ConflictError` (HTTP 409). No read-then-write TOCTOU window exists.

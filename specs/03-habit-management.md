@@ -292,6 +292,7 @@ export class ParseDatePipe implements PipeTransform<string, string> {
 - **Timezone Drift Protection**: The backend enforces date calculations against the user localized timezone offset passed in the JWT or stored in the user profile table. `logged_date` is strictly formatted and stored as standard ISO `DATE` (`YYYY-MM-DD`) rather than UTC timestamps.
 - **Duplicate Log Guard**: PostgreSQL uniqueness constraint `uq_habit_log_date UNIQUE (habit_id, logged_date)` blocks double writes. The NestJS service converts DB error code `23505` into a controlled HTTP 409 Conflict.
 - **Streak Recalculation Resiliency**: If a historic log entry is removed, the backend triggers an idempotent window re-evaluation of streaks across the preceding 365 calendar days within a database transaction. The recalculation acquires a row-level lock via `SELECT id FROM habit_streaks WHERE habit_id = $1 FOR UPDATE` to prevent concurrent recalculation race conditions.
+- **No-Op Deletion Guard (DATA-03)**: `removeLog` MUST first delete the targeted log row with `.returning({ id: habitLogsTable.id })` and verify at least one row was actually deleted. If 0 rows were deleted, the repository MUST return the existing streak row immediately — without acquiring the `FOR UPDATE` streak lock and without recalculating streaks. This prevents unnecessary lock contention and spurious streak rewrites on idempotent deletions.
 
 ### 6. Mobile-First Layout & Touch Ergonomics
 

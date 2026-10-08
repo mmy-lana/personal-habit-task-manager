@@ -48,3 +48,13 @@
   - [x] Configure NestJS global exception filters, standard response envelopes, and Throttler guards.
   - [x] Configure Vercel frontend build outputs and Render backend containerization configurations.
   - [x] Execute full production pipeline build and schema verification check.
+
+- [x] Task 7: Audit Defect Verification & Remediation
+  - [x] [SEC-01] Seed default development user (`00000000-0000-0000-0000-000000000000`) on migration/bootstrap; verify foreign keys resolve.
+  - [x] [DATA-01] Replace TOCTOU read-then-write checks with atomic `WHERE updated_at = :clientUpdatedAt` predicates in tasks repository.
+  - [x] [DATA-02] Move task filtering (`projectId`, `status`, `priority`) into SQL via dynamic Drizzle `where` conditions.
+  - [x] [DATA-03] Guard `removeLog`: verify deleted-row count before acquiring streak locks / recalculating streaks.
+  - [x] [UX-01] Enforce 44px touch targets on `TaskCardComponent` status selector.
+  - [x] [SEC-03] Add safe-area inset fallback padding (`pb-4`) to mobile navigation shell.
+  - [x] Provision local database via `docker-compose.yml` with healthcheck and seed integration.
+  - [x] Verify: `pnpm turbo run typecheck` (zero errors), `pnpm --filter api test` (passing), headless browser e2e smoke test (passing), `pnpm turbo run build` (clean).
