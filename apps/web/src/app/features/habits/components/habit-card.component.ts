@@ -35,8 +35,11 @@ import { HabitSignalStore } from '../state/habit-signal.store.js';
         </p>
 
         <div class="flex items-center gap-3 text-xs text-[#64748b]">
-          <span class="font-mono font-semibold text-[#00b4d8]">
-            🔥 {{ habit.streak.currentStreak }}d
+          <span class="font-mono font-semibold text-[#00b4d8] flex items-center gap-1">
+            <svg class="w-3.5 h-3.5 inline shrink-0 text-[#00b4d8]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.527.82-1.122 2.03-1.442 3.486-.33 1.5-.373 2.825-.375 3.33a3.5 3.5 0 01-.762-1.745c-.1-.53-.51-.95-1.04-1.01a1 1 0 00-.98.54C5.077 8.667 5 9.774 5 10.75c0 3.728 3.134 6.75 7 6.75s7-3.022 7-6.75c0-3.13-1.66-5.836-3.882-7.39a1.002 1.002 0 00-.723-.198c-.46.06-.85.34-1.03.77-.37.88-.93 1.83-1.6 2.57a7.97 7.97 0 01.63-4.189z" clip-rule="evenodd" />
+            </svg>
+            {{ habit.streak.currentStreak }}d
           </span>
           <span>Best: {{ habit.streak.longestStreak }}d</span>
           <span class="hidden sm:inline">
