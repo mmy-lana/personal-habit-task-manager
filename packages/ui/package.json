@@ -12,14 +12,20 @@
     "./metric-tile": "./src/metric-tile/metric-tile.component.ts",
     "./select": "./src/select/select.component.ts"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "@angular/cdk": "*",
+    "@angular/common": "*",
+    "@angular/core": "*",
+    "@angular/forms": "*",
+    "rxjs": "*"
+  },
+  "devDependencies": {
     "@angular/cdk": "latest",
     "@angular/common": "latest",
     "@angular/core": "latest",
-    "@angular/forms": "latest"
-  },
-  "devDependencies": {
+    "@angular/forms": "latest",
     "@repo/tsconfig": "workspace:*",
+    "rxjs": "latest",
     "typescript": "~6.0.3"
   }
 }

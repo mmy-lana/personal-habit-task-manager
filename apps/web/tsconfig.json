@@ -2,7 +2,21 @@
   "extends": "@repo/tsconfig/angular.json",
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
-    "types": []
+    "types": [],
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@repo/ui/button": ["../../packages/ui/src/button/button.component.ts"],
+      "@repo/ui/card": ["../../packages/ui/src/card/card.component.ts"],
+      "@repo/ui/badge": ["../../packages/ui/src/badge/badge.component.ts"],
+      "@repo/ui/input": ["../../packages/ui/src/input/input.component.ts"],
+      "@repo/ui/modal": ["../../packages/ui/src/modal/modal.component.ts"],
+      "@repo/ui/metric-tile": ["../../packages/ui/src/metric-tile/metric-tile.component.ts"],
+      "@repo/ui/select": ["../../packages/ui/src/select/select.component.ts"],
+      "@repo/shared-dto": ["../../packages/shared-dto/src/index.ts"],
+      "@repo/shared-dto/*": ["../../packages/shared-dto/src/*"],
+      "rxjs": ["./node_modules/rxjs"],
+      "rxjs/*": ["./node_modules/rxjs/*"]
+    }
   },
   "include": ["src/**/*", "../../packages/ui/src/**/*"]
 }

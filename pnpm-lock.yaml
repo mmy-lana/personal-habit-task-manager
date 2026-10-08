@@ -153,7 +153,7 @@ importers:
     devDependencies:
       '@angular/build':
         specifier: latest
-        version: 22.2.2(@angular/compiler-cli@22.2.1(@angular/compiler@22.2.1)(typescript@6.0.3))(@angular/compiler@22.2.1)(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@types/node@26.6.4)(jiti@2.7.0)(postcss@8.5.28)(supports-color@8.1.1)(tailwindcss@4.3.3)(tslib@2.8.1)(tsx@4.23.15)(typescript@6.0.3)
+        version: 22.2.2(@angular/compiler-cli@22.2.1(@angular/compiler@22.2.1)(typescript@6.0.3))(@angular/compiler@22.2.1)(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@types/node@26.6.4)(jiti@2.7.0)(postcss@8.5.29)(supports-color@8.1.1)(tailwindcss@4.3.3)(tslib@2.8.1)(tsx@4.23.15)(typescript@6.0.3)
       '@angular/cli':
         specifier: latest
         version: 22.2.2(@types/node@26.6.4)(chokidar@5.0.0)
@@ -166,9 +166,15 @@ importers:
       '@repo/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
+      '@tailwindcss/postcss':
+        specifier: latest
+        version: 4.3.3
       '@tailwindcss/vite':
         specifier: latest
         version: 4.3.3(vite@8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(tsx@4.23.15))
+      postcss:
+        specifier: latest
+        version: 8.5.29
       tailwindcss:
         specifier: latest
         version: 4.3.3
@@ -235,7 +241,7 @@ importers:
   packages/tsconfig: {}
 
   packages/ui:
-    dependencies:
+    devDependencies:
       '@angular/cdk':
         specifier: latest
         version: 22.2.2(539f1c0d474fe13b108bca94cc3bd7b4)
@@ -248,15 +254,21 @@ importers:
       '@angular/forms':
         specifier: latest
         version: 22.2.1(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(rxjs@7.8.2)
-    devDependencies:
       '@repo/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      rxjs:
+        specifier: latest
+        version: 7.8.2
       typescript:
         specifier: ~6.0.3
         version: 6.0.3
 
 packages:
+
+  '@alloc/quick-lru@5.3.0':
+    resolution: {integrity: sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA==, tarball: https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.3.0.tgz}
+    engines: {node: '>=10'}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==, tarball: https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.3.0.tgz}
@@ -1984,6 +1996,9 @@ packages:
     resolution: {integrity: sha512-krXjAikiaFSPaK/FkAQT5UTx3VormQaiZ5hBFlJZ9UFQGB/rwg1MZIhHAG9smMQRTdyJxP6Qt5MwMtdyU5FWrA==, tarball: https://registry.npmjs.org/@tailwindcss/oxide/-/oxide-4.3.3.tgz}
     engines: {node: '>= 20'}
 
+  '@tailwindcss/postcss@4.3.3':
+    resolution: {integrity: sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3z8DyzhICWnMtQeg==, tarball: https://registry.npmjs.org/@tailwindcss/postcss/-/postcss-4.3.3.tgz}
+
   '@tailwindcss/vite@4.3.3':
     resolution: {integrity: sha512-yYU8cogLeSh/ms2jh8Fj7jaba/EWa7Ja6GoUqYZaraEuCI5YS6ms6ObZgjjedm+jm6XZjdNRWBpPP6Z86oOxcw==, tarball: https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.3.3.tgz}
     peerDependencies:
@@ -3352,6 +3367,10 @@ packages:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==, tarball: https://registry.npmjs.org/postcss/-/postcss-8.5.28.tgz}
     engines: {node: ^10 || ^12 || >=14}
 
+  postcss@8.5.29:
+    resolution: {integrity: sha512-49cGhUbXj8Qenv0iTMxA1cFBzxXoctpC9Ujd77t1WcbJIr6nF/eI7g/8MgxrYldFRuAXvja7xQRwavoW7kgrxQ==, tarball: https://registry.npmjs.org/postcss/-/postcss-8.5.29.tgz}
+    engines: {node: ^10 || ^12 || >=14}
+
   postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==, tarball: https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz}
     engines: {node: '>=4'}
@@ -3994,6 +4013,8 @@ packages:
 
 snapshots:
 
+  '@alloc/quick-lru@5.3.0': {}
+
   '@ampproject/remapping@2.3.0':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -4062,7 +4083,7 @@ snapshots:
       '@angular/core': 22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)
       tslib: 2.8.1
 
-  '@angular/build@22.2.2(@angular/compiler-cli@22.2.1(@angular/compiler@22.2.1)(typescript@6.0.3))(@angular/compiler@22.2.1)(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@types/node@26.6.4)(jiti@2.7.0)(postcss@8.5.28)(supports-color@8.1.1)(tailwindcss@4.3.3)(tslib@2.8.1)(tsx@4.23.15)(typescript@6.0.3)':
+  '@angular/build@22.2.2(@angular/compiler-cli@22.2.1(@angular/compiler@22.2.1)(typescript@6.0.3))(@angular/compiler@22.2.1)(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(@angular/platform-browser@22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@types/node@26.6.4)(jiti@2.7.0)(postcss@8.5.29)(supports-color@8.1.1)(tailwindcss@4.3.3)(tslib@2.8.1)(tsx@4.23.15)(typescript@6.0.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2202.2(chokidar@5.0.0)
@@ -4099,7 +4120,7 @@ snapshots:
       '@angular/core': 22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)
       '@angular/platform-browser': 22.2.1(@angular/animations@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3)))(@angular/common@22.2.1(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.1(@angular/compiler@22.2.1)(rxjs@7.8.2)(zone.js@0.16.3))
       lmdb: 3.5.6
-      postcss: 8.5.28
+      postcss: 8.5.29
       tailwindcss: 4.3.3
     transitivePeerDependencies:
       - '@types/node'
@@ -5253,6 +5274,14 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.3.3
       '@tailwindcss/oxide-win32-x64-msvc': 4.3.3
 
+  '@tailwindcss/postcss@4.3.3':
+    dependencies:
+      '@alloc/quick-lru': 5.3.0
+      '@tailwindcss/node': 4.3.3
+      '@tailwindcss/oxide': 4.3.3
+      postcss: 8.5.28
+      tailwindcss: 4.3.3
+
   '@tailwindcss/vite@4.3.3(vite@8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(tsx@4.23.15))':
     dependencies:
       '@tailwindcss/node': 4.3.3
@@ -5476,9 +5505,9 @@ snapshots:
       domhandler: 6.0.1
       htmlparser2: 12.0.0
       picocolors: 1.1.1
-      postcss: 8.5.28
+      postcss: 8.5.29
       postcss-media-query-parser: 0.2.3
-      postcss-safe-parser: 7.1.0(postcss@8.5.28)
+      postcss-safe-parser: 7.1.0(postcss@8.5.29)
 
   body-parser@2.3.0(supports-color@8.1.1):
     dependencies:
@@ -6548,11 +6577,17 @@ snapshots:
 
   postcss-media-query-parser@0.2.3: {}
 
-  postcss-safe-parser@7.1.0(postcss@8.5.28):
+  postcss-safe-parser@7.1.0(postcss@8.5.29):
     dependencies:
-      postcss: 8.5.28
+      postcss: 8.5.29
 
   postcss@8.5.28:
+    dependencies:
+      nanoid: 3.3.19
+      picocolors: 1.1.1
+      source-map-js: 1.2.2
+
+  postcss@8.5.29:
     dependencies:
       nanoid: 3.3.19
       picocolors: 1.1.1
@@ -7081,7 +7116,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.28
+      postcss: 8.5.29
       rolldown: 1.2.8
       tinyglobby: 0.2.17
     optionalDependencies:
@@ -7097,7 +7132,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.28
+      postcss: 8.5.29
       rolldown: 1.2.12
       tinyglobby: 0.2.17
     optionalDependencies:

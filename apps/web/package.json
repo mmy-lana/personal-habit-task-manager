@@ -29,7 +29,9 @@
     "@angular/compiler-cli": "latest",
     "@repo/tailwind-config": "workspace:*",
     "@repo/tsconfig": "workspace:*",
+    "@tailwindcss/postcss": "latest",
     "@tailwindcss/vite": "latest",
+    "postcss": "latest",
     "tailwindcss": "latest",
     "typescript": "~6.0.3",
     "vite": "latest"
