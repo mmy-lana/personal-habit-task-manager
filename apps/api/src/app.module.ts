@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { validateEnvironment } from './config/index.js';
+import { HabitsModule } from './modules/habits/habits.module.js';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { validateEnvironment } from './config/index.js';
         limit: 100,
       },
     ]),
+    HabitsModule,
   ],
   controllers: [],
   providers: [],

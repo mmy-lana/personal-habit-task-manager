@@ -20,6 +20,7 @@
     "@repo/database": "workspace:*",
     "@repo/shared-dto": "workspace:*",
     "bcrypt": "latest",
+    "drizzle-orm": "latest",
     "class-transformer": "latest",
     "class-validator": "latest",
     "cookie-parser": "latest",

@@ -17,13 +17,13 @@
   - [x] Create `Modal` accessible dialog container adhering to keyboard escape, backdrop click, and `@angular/cdk/a11y` focus trap.
   - [x] Create `MetricTile` primitive for dashboard performance telemetry.
 
-- [ ] Task 3: Feature Module 1 (Habit Management & Streak Tracking) end-to-end implementation
-  - [ ] Define Drizzle schemas for habits, habit completion logs, and streak metadata.
-  - [ ] Build shared DTOs: `CreateHabitDto`, `UpdateHabitDto`, `LogHabitDto`.
-  - [ ] Implement NestJS `HabitsModule` with repository, service, controller, and `ParseDatePipe`.
-  - [ ] Implement habit streak calculation algorithm with row-level locks on recalculation.
-  - [ ] Build Angular `HabitSignalStore` providing optimistic UI check-in handling.
-  - [ ] Assemble habit checklist and interactive habit card components responsive from 360px up.
+- [x] Task 3: Feature Module 1 (Habit Management & Streak Tracking) end-to-end implementation
+  - [x] Define Drizzle schemas for habits, habit completion logs, and streak metadata.
+  - [x] Build shared DTOs: `CreateHabitDto`, `UpdateHabitDto`, `LogHabitDto`.
+  - [x] Implement NestJS `HabitsModule` with repository, service, controller, and `ParseDatePipe`.
+  - [x] Implement habit streak calculation algorithm with row-level locks on recalculation.
+  - [x] Build Angular `HabitSignalStore` providing optimistic UI check-in handling.
+  - [x] Assemble habit checklist and interactive habit card components responsive from 360px up.
   - [ ] Write integration test assertions for duplicate check-in prevention and streak preservation.
 
 - [ ] Task 4: Feature Module 2 (Task & Project Pipeline) end-to-end implementation
