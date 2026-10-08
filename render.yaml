@@ -1,0 +1,41 @@
+services:
+  # NestJS API — deployed as a Docker container on Render
+  - type: web
+    name: habit-task-api
+    runtime: docker
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        sync: false # set in Render dashboard (Neon pooled connection string)
+      - key: DATABASE_POOL_MAX_CONNECTIONS
+        value: "10"
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false # deployed Vercel web origin
+
+  # Angular web app — static build served by Render CDN
+  - type: web
+    name: habit-task-web
+    runtime: static
+    rootDir: apps/web
+    buildCommand: cd ../.. && pnpm exec turbo run build --filter=web...
+    staticPublishPath: ./dist/web/browser
+    pullRequestPreviewsEnabled: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

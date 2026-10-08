@@ -6,6 +6,7 @@ import { HabitsModule } from './modules/habits/habits.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
 import { TasksModule } from './modules/tasks/tasks.module.js';
 import { AnalyticsModule } from './modules/analytics/analytics.module.js';
+import { HealthModule } from './modules/health/health.module.js';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module.js';
     ProjectsModule,
     TasksModule,
     AnalyticsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [],

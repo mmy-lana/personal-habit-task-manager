@@ -24,7 +24,7 @@
   - [x] Implement habit streak calculation algorithm with row-level locks on recalculation.
   - [x] Build Angular `HabitSignalStore` providing optimistic UI check-in handling.
   - [x] Assemble habit checklist and interactive habit card components responsive from 360px up.
-  - [ ] Write integration test assertions for duplicate check-in prevention and streak preservation.
+  - [x] Write integration test assertions for duplicate check-in prevention and streak preservation.
 
 - [x] Task 4: Feature Module 2 (Task & Project Pipeline) end-to-end implementation
   - [x] Define Drizzle schemas for projects, tasks, and task labels.
@@ -42,9 +42,9 @@
   - [x] Assemble responsive overview page displaying streak counters, pending task matrices, and habit completion rings.
   - [x] Integrate mobile navigation bottom drawer switching seamlessly to top navigation at 768px and desktop rail at 1024px.
 
-- [ ] Task 6: Routing shell, responsive page assembly, and production build verification
-  - [ ] Configure Angular router with standalone lazy routes and auth guards.
-  - [ ] Enforce responsive layouts across 360px, 390px, 430px, 768px, and 1024px+ viewports without hover-dependent triggers.
-  - [ ] Configure NestJS global exception filters, standard response envelopes, and Throttler guards.
-  - [ ] Configure Vercel frontend build outputs and Render backend containerization configurations.
-  - [ ] Execute full production pipeline build and schema verification check.
+- [x] Task 6: Routing shell, responsive page assembly, and production build verification
+  - [x] Configure Angular router with standalone lazy routes and auth guards.
+  - [x] Enforce responsive layouts across 360px, 390px, 430px, 768px, and 1024px+ viewports without hover-dependent triggers.
+  - [x] Configure NestJS global exception filters, standard response envelopes, and Throttler guards.
+  - [x] Configure Vercel frontend build outputs and Render backend containerization configurations.
+  - [x] Execute full production pipeline build and schema verification check.

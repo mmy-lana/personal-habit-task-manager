@@ -6,7 +6,8 @@
     "build": "nest build",
     "dev": "nest start --watch",
     "start": "nest start",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/main",
+    "test": "node --test \"test/*.cjs\""
   },
   "dependencies": {
     "@nestjs/common": "latest",
