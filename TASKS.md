@@ -8,14 +8,14 @@
   - [x] Configure environment variable validation schemas for both web and api projects.
   - [x] Implement database migration runner targeting Neon PostgreSQL.
 
-- [ ] Task 2: Core design system primitives and atomic UI components
-  - [ ] Establish modern corporate deep blue Tailwind v4 design tokens in `packages/tailwind-config`.
-  - [ ] Create `Button` primitive supporting variant hierarchy and touch-first hit targets (min 44x44px).
-  - [ ] Create `Card` primitive supporting corporate surface depths and active states.
-  - [ ] Create `Badge` primitive supporting priority, status, and streak tier visualization.
-  - [ ] Create `Input` and `Select` primitives with explicit focus rings and mobile-accessible targets.
-  - [ ] Create `Modal` accessible dialog container adhering to keyboard escape, backdrop click, and `@angular/cdk/a11y` focus trap.
-  - [ ] Create `MetricTile` primitive for dashboard performance telemetry.
+- [x] Task 2: Core design system primitives and atomic UI components
+  - [x] Establish modern corporate deep blue Tailwind v4 design tokens in `packages/tailwind-config`.
+  - [x] Create `Button` primitive supporting variant hierarchy and touch-first hit targets (min 44x44px).
+  - [x] Create `Card` primitive supporting corporate surface depths and active states.
+  - [x] Create `Badge` primitive supporting priority, status, and streak tier visualization.
+  - [x] Create `Input` and `Select` primitives with explicit focus rings and mobile-accessible targets.
+  - [x] Create `Modal` accessible dialog container adhering to keyboard escape, backdrop click, and `@angular/cdk/a11y` focus trap.
+  - [x] Create `MetricTile` primitive for dashboard performance telemetry.
 
 - [ ] Task 3: Feature Module 1 (Habit Management & Streak Tracking) end-to-end implementation
   - [ ] Define Drizzle schemas for habits, habit completion logs, and streak metadata.

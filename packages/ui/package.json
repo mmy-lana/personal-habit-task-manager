@@ -9,7 +9,8 @@
     "./badge": "./src/badge/badge.component.ts",
     "./input": "./src/input/input.component.ts",
     "./modal": "./src/modal/modal.component.ts",
-    "./metric-tile": "./src/metric-tile/metric-tile.component.ts"
+    "./metric-tile": "./src/metric-tile/metric-tile.component.ts",
+    "./select": "./src/select/select.component.ts"
   },
   "dependencies": {
     "@angular/cdk": "latest",
