@@ -4,7 +4,7 @@ import {
   type DatabaseClient,
   tasks as tasksTable,
 } from '@repo/database';
-import type { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from '@repo/shared-dto';
+import type { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto, TaskStatus, TaskPriority } from '@repo/shared-dto';
 import { DATABASE_CLIENT } from '../habits/habits.repository.js';
 
 @Injectable()
@@ -28,18 +28,18 @@ export class TasksRepository {
   }
 
   async findAll(userId: string, filters?: { projectId?: string; status?: string; priority?: string }) {
-    const allTasks = await this.db
+    // DATA-02: filtering is pushed down into PostgreSQL as a dynamic `where`
+    // predicate — no application-heap post-filtering over unbounded row sets.
+    const conditions = [eq(tasksTable.userId, userId)];
+    if (filters?.projectId) conditions.push(eq(tasksTable.projectId, filters.projectId));
+    if (filters?.status) conditions.push(eq(tasksTable.status, filters.status as TaskStatus));
+    if (filters?.priority) conditions.push(eq(tasksTable.priority, filters.priority as TaskPriority));
+
+    return this.db
       .select()
       .from(tasksTable)
-      .where(eq(tasksTable.userId, userId))
+      .where(and(...conditions))
       .orderBy(desc(tasksTable.createdAt));
-
-    return allTasks.filter((t) => {
-      if (filters?.projectId && t.projectId !== filters.projectId) return false;
-      if (filters?.status && t.status !== filters.status) return false;
-      if (filters?.priority && t.priority !== filters.priority) return false;
-      return true;
-    });
   }
 
   async findOne(id: string, userId: string) {
@@ -60,39 +60,45 @@ export class TasksRepository {
     if (dto.projectId !== undefined) updates['projectId'] = dto.projectId;
     if (dto.dueDate !== undefined) updates['dueDate'] = dto.dueDate ? new Date(dto.dueDate) : null;
 
-    if (dto.clientUpdatedAt) {
-      const existing = await this.findOne(id, userId);
-      if (existing && existing.updatedAt > new Date(dto.clientUpdatedAt)) {
-        const err = new Error('Conflict');
-        err.name = 'ConflictError';
-        throw err;
-      }
-    }
+    // DATA-01: optimistic concurrency is enforced atomically in SQL. When
+    // `clientUpdatedAt` is supplied it joins the `where` predicate, so the
+    // compare-and-swap happens in a single statement — a concurrent writer
+    // between the client's read and this write yields 0 affected rows, which
+    // maps to ConflictError (HTTP 409) with no TOCTOU read-then-write window.
+    const conditions = [eq(tasksTable.id, id), eq(tasksTable.userId, userId)];
+    if (dto.clientUpdatedAt) conditions.push(eq(tasksTable.updatedAt, new Date(dto.clientUpdatedAt)));
 
     const result = await this.db
       .update(tasksTable)
       .set(updates)
-      .where(and(eq(tasksTable.id, id), eq(tasksTable.userId, userId)))
+      .where(and(...conditions))
       .returning();
+
+    if (dto.clientUpdatedAt && result.length === 0) {
+      const err = new Error('Conflict');
+      err.name = 'ConflictError';
+      throw err;
+    }
     return result[0] ?? null;
   }
 
   async updateStatus(id: string, userId: string, dto: UpdateTaskStatusDto) {
-    if (dto.clientUpdatedAt) {
-      const existing = await this.findOne(id, userId);
-      if (existing && existing.updatedAt > new Date(dto.clientUpdatedAt)) {
-        const err = new Error('Conflict');
-        err.name = 'ConflictError';
-        throw err;
-      }
-    }
+    // DATA-01: same atomic compare-and-swap contract as `update`.
+    const conditions = [eq(tasksTable.id, id), eq(tasksTable.userId, userId)];
+    if (dto.clientUpdatedAt) conditions.push(eq(tasksTable.updatedAt, new Date(dto.clientUpdatedAt)));
 
     const completedAt = dto.status === 'COMPLETED' ? new Date() : null;
     const result = await this.db
       .update(tasksTable)
       .set({ status: dto.status, completedAt, updatedAt: new Date() })
-      .where(and(eq(tasksTable.id, id), eq(tasksTable.userId, userId)))
+      .where(and(...conditions))
       .returning();
+
+    if (dto.clientUpdatedAt && result.length === 0) {
+      const err = new Error('Conflict');
+      err.name = 'ConflictError';
+      throw err;
+    }
     return result[0] ?? null;
   }
 

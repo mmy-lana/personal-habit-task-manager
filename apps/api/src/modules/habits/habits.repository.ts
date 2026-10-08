@@ -216,14 +216,37 @@ export class HabitsRepository {
 
   async removeLog(habitId: string, userId: string, date: string) {
     return this.db.transaction(async (tx) => {
-      await tx
+      // DATA-03: capture deleted rows and verify the deletion actually removed
+      // something before taking streak locks or recalculating.
+      const deleted = await tx
         .delete(habitLogsTable)
         .where(
           and(
             eq(habitLogsTable.habitId, habitId),
             eq(habitLogsTable.loggedDate, date),
           ),
-        );
+        )
+        .returning({ id: habitLogsTable.id });
+
+      if (deleted.length === 0) {
+        // No-op deletion: return the existing streak row without acquiring the
+        // `FOR UPDATE` lock or triggering a spurious recalculation.
+        const [existingStreak] = await tx
+          .select()
+          .from(habitStreaksTable)
+          .where(eq(habitStreaksTable.habitId, habitId));
+
+        if (existingStreak) {
+          return {
+            habitId: existingStreak.habitId,
+            currentStreak: existingStreak.currentStreak,
+            longestStreak: existingStreak.longestStreak,
+            lastLoggedDate: existingStreak.lastLoggedDate,
+            updatedAt: existingStreak.updatedAt.toISOString(),
+          };
+        }
+        return null;
+      }
 
       // Row-level lock for recalculation
       const [lockedStreak] = await tx
