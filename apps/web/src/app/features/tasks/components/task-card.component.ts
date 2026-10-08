@@ -42,7 +42,7 @@ const STATUS_OPTIONS: TaskStatus[] = ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVI
           [value]="task.status"
           (change)="onStatusChange($event)"
           aria-label="Change task status"
-          class="shrink-0 h-9 min-w-[44px] rounded-lg bg-[#070d1e] border border-[#1e3570] px-2 text-xs text-[#f8fafc] focus:border-[#0077b6] focus:outline-none focus:ring-1 focus:ring-[#0077b6] cursor-pointer appearance-none"
+          class="shrink-0 h-11 min-h-[44px] min-w-[44px] rounded-lg bg-[#070d1e] border border-[#1e3570] px-2 text-xs text-[#f8fafc] focus:border-[#0077b6] focus:outline-none focus:ring-1 focus:ring-[#0077b6] cursor-pointer appearance-none"
         >
           <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
         </select>

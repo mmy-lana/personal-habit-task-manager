@@ -76,9 +76,9 @@ const NAV_ITEMS: NavItem[] = [
 
       <!-- Mobile bottom drawer (< 768px) -->
       <nav
-        class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#0c1836] border-t border-[#1e3570] flex"
+        class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#0c1836] border-t border-[#1e3570] flex pb-4"
         aria-label="Primary"
-        style="padding-bottom: env(safe-area-inset-bottom);"
+        style="padding-bottom: max(env(safe-area-inset-bottom), 1rem);"
       >
         @for (item of navItems; track item.path) {
           <a
