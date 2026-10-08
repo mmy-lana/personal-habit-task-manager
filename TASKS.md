@@ -26,15 +26,15 @@
   - [x] Assemble habit checklist and interactive habit card components responsive from 360px up.
   - [ ] Write integration test assertions for duplicate check-in prevention and streak preservation.
 
-- [ ] Task 4: Feature Module 2 (Task & Project Pipeline) end-to-end implementation
-  - [ ] Define Drizzle schemas for projects, tasks, and task labels.
-  - [ ] Build shared DTOs: `CreateTaskDto`, `UpdateTaskDto`, `UpdateTaskStatusDto`, `CreateProjectDto`.
-  - [ ] Implement NestJS `TasksModule` and `ProjectsModule` with repositories, services, controllers, and priority queues.
-  - [ ] Build Angular `TaskSignalStore` with optimistic mutation handling and filtering logic.
-  - [ ] Call `fetchProjects()` alongside `fetchTasks()` during route initialization in the tasks page component.
-  - [ ] Assemble task list, task filtering toolbar, and task creation modal components.
-  - [ ] Implement touch-friendly mobile action sheets for task status transitions.
-  - [ ] Verify database constraint checks for cascading deletions and orphaned tasks.
+- [x] Task 4: Feature Module 2 (Task & Project Pipeline) end-to-end implementation
+  - [x] Define Drizzle schemas for projects, tasks, and task labels.
+  - [x] Build shared DTOs: `CreateTaskDto`, `UpdateTaskDto`, `UpdateTaskStatusDto`, `CreateProjectDto`.
+  - [x] Implement NestJS `TasksModule` and `ProjectsModule` with repositories, services, controllers, and priority queues.
+  - [x] Build Angular `TaskSignalStore` with optimistic mutation handling and filtering logic.
+  - [x] Call `fetchProjects()` alongside `fetchTasks()` during route initialization in the tasks page component.
+  - [x] Assemble task list, task filtering toolbar, and task creation modal components.
+  - [x] Implement touch-friendly mobile action sheets for task status transitions.
+  - [x] Verify database constraint checks for cascading deletions and orphaned tasks.
 
 - [ ] Task 5: Feature Module 3 (Corporate Dashboard & Aggregated Analytics) end-to-end implementation
   - [ ] Implement NestJS analytics aggregation service compiling daily completion metrics.
