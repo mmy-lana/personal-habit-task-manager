@@ -25,7 +25,8 @@
     "db:generate": "drizzle-kit generate",
     "db:check": "drizzle-kit check",
     "db:studio": "drizzle-kit studio",
-    "db:migrate": "node dist/migrate.js"
+    "db:migrate": "node dist/migrate.js",
+    "db:seed": "node dist/seed-cli.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "latest",

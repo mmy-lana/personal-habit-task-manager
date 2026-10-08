@@ -4,6 +4,7 @@ import { Pool } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { migrate } from 'drizzle-orm/neon-serverless/migrator';
 import { requireDatabaseUrl } from './env.js';
+import { seedDevUser } from './seed.js';
 
 /**
  * Migrations are generated into `src/migrations` and copied verbatim into `dist/`
@@ -50,6 +51,11 @@ export async function runMigrations(): Promise<void> {
   try {
     await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER });
     process.stdout.write('[database] migrations applied successfully\n');
+
+    // SEC-01: ensure the default development identity exists so all user-bound
+    // foreign keys resolve in non-auth dev mode. Idempotent (ON CONFLICT DO NOTHING).
+    await seedDevUser(db);
+    process.stdout.write('[database] development identity seed ensured\n');
   } finally {
     await pool.end();
   }
