@@ -1,10 +1,13 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Pool } from '@neondatabase/serverless';
+import pg from 'pg';
 import { drizzle } from 'drizzle-orm/neon-serverless';
+import { drizzle as drizzleNodePg } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/neon-serverless/migrator';
 import { requireDatabaseUrl } from './env.js';
 import { seedDevUser } from './seed.js';
+import { isLocalConnectionString } from './client.js';
 
 /**
  * Migrations are generated into `src/migrations` and copied verbatim into `dist/`
@@ -38,6 +41,25 @@ export async function runMigrations(): Promise<void> {
   const connectionString = requireDatabaseUrl();
 
   process.stdout.write(`[database] applying migrations to ${describeTarget(connectionString)}\n`);
+
+  // Local development databases (docker compose) cannot speak the Neon WebSocket
+  // protocol, so they route through the standard TCP `pg` driver.
+  if (isLocalConnectionString(connectionString)) {
+    const pool = new pg.Pool({
+      connectionString,
+      max: MIGRATION_POOL_MAX_CONNECTIONS,
+    });
+    const db = drizzleNodePg(pool);
+    try {
+      await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER });
+      process.stdout.write('[database] migrations applied successfully\n');
+      await seedDevUser(db);
+      process.stdout.write('[database] development identity seed ensured\n');
+    } finally {
+      await pool.end();
+    }
+    return;
+  }
 
   const pool = new Pool({
     connectionString,

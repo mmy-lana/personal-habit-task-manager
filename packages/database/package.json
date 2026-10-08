@@ -30,11 +30,13 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "latest",
-    "drizzle-orm": "latest"
+    "drizzle-orm": "latest",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
     "@types/node": "latest",
+    "@types/pg": "^8.23.1",
     "drizzle-kit": "latest",
     "typescript": "~6.0.3"
   }

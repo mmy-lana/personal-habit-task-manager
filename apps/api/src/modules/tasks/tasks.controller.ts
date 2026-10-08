@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Patch, Delete, Body, Param, Query, HttpStatus } from '@nestjs/common';
 import { TasksService } from './tasks.service.js';
-import type { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from '@repo/shared-dto';
+// Value import (not `import type`): the ValidationPipe needs the runtime DTO
+// classes to read class-validator metadata; a type-only import erases them.
+import { CreateTaskDto, UpdateTaskDto, UpdateTaskStatusDto } from '@repo/shared-dto';
 
 @Controller('tasks')
 export class TasksController {

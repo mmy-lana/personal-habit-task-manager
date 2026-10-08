@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Delete, Body, Param, HttpStatus } from '@nestjs/common';
 import { ProjectsService } from './projects.service.js';
-import type { CreateProjectDto } from '@repo/shared-dto';
+// Value import (not `import type`): the ValidationPipe needs the runtime DTO
+// class to read class-validator metadata; a type-only import erases it.
+import { CreateProjectDto } from '@repo/shared-dto';
 
 @Controller('projects')
 export class ProjectsController {

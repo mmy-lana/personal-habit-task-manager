@@ -1,6 +1,8 @@
 import { neon, Pool, type NeonQueryFunction, type PoolConfig } from '@neondatabase/serverless';
 import { drizzle as drizzleHttp, type NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import { drizzle, type NeonDatabase } from 'drizzle-orm/neon-serverless';
+import { drizzle as drizzleNodePg } from 'drizzle-orm/node-postgres';
+import pg from 'pg';
 import * as schema from './schema/index.js';
 
 /** The compiled Drizzle schema surface shared by every client factory below. */
@@ -39,6 +41,21 @@ export interface DatabaseClientOptions {
 }
 
 const CONNECTION_STRING_PATTERN = /^postgres(?:ql)?:\/\//i;
+
+/**
+ * Detects a plain local PostgreSQL endpoint (Docker `db:up`, Homebrew, etc.).
+ *
+ * The Neon WebSocket driver only speaks the Neon proxy protocol, so local
+ * development databases must use the standard TCP `pg` driver instead.
+ */
+export function isLocalConnectionString(connectionString: string): boolean {
+  try {
+    const url = new URL(connectionString.trim());
+    return ['localhost', '127.0.0.1', '::1'].includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
 
 function assertConnectionString(connectionString: string): string {
   const normalized = connectionString.trim();
@@ -96,6 +113,20 @@ export function createDatabaseClient(
   connectionString: string,
   options: DatabaseClientOptions = {},
 ): DatabaseClient {
+  // Local development databases (docker compose `db:up`) cannot speak the Neon
+  // WebSocket protocol, so they route through the standard TCP `pg` driver. The
+  // Drizzle node-postgres client exposes the identical query/transaction surface
+  // used by every repository.
+  if (isLocalConnectionString(connectionString)) {
+    const pool = new pg.Pool({
+      connectionString: assertConnectionString(connectionString),
+      max: options.maxConnections ?? DEFAULT_POOL_MAX_CONNECTIONS,
+      idleTimeoutMillis: options.idleTimeoutMillis ?? DEFAULT_POOL_IDLE_TIMEOUT_MS,
+      connectionTimeoutMillis: options.connectionTimeoutMillis ?? DEFAULT_POOL_CONNECTION_TIMEOUT_MS,
+    });
+    return drizzleNodePg(pool, { schema, logger: options.logger ?? false }) as unknown as DatabaseClient;
+  }
+
   const pool = createDatabasePool(connectionString, options);
   return drizzle(pool, { schema, logger: options.logger ?? false });
 }

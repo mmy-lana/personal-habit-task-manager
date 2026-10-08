@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { Pool } from '@neondatabase/serverless';
 
 /**
@@ -25,24 +26,27 @@ const DEV_USER_PASSWORD_HASH = '$2b$10$devlocaldevelopmentidentityonly0000000000
  * the same session without opening extra connections.
  */
 export async function seedDevUser(
-  target: string | { execute: (query: { sql: string; params: unknown[] }) => Promise<unknown> },
+  // The `never` parameter keeps this assignable to any Drizzle `execute`
+  // signature (function-parameter contravariance) without importing driver types.
+  target: string | { execute: (query: never) => Promise<unknown> },
 ): Promise<void> {
-  const statement = {
-    sql: `INSERT INTO users (id, email, password_hash, first_name, last_name)
-          VALUES ($1, $2, $3, $4, $5)
-          ON CONFLICT (id) DO NOTHING`,
-    params: [DEV_USER_ID, DEV_USER_EMAIL, DEV_USER_PASSWORD_HASH, 'Local', 'Developer'],
-  };
-
   if (typeof target === 'string') {
     const pool = new Pool({ connectionString: target, max: 1, allowExitOnIdle: true });
     try {
-      await pool.query(statement.sql, statement.params);
+      await pool.query(
+        `INSERT INTO users (id, email, password_hash, first_name, last_name)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (id) DO NOTHING`,
+        [DEV_USER_ID, DEV_USER_EMAIL, DEV_USER_PASSWORD_HASH, 'Local', 'Developer'],
+      );
     } finally {
       await pool.end();
     }
     return;
   }
 
-  await target.execute(statement);
+  const execute = target.execute.bind(target) as unknown as (query: unknown) => Promise<unknown>;
+  await execute(sql`INSERT INTO users (id, email, password_hash, first_name, last_name)
+                    VALUES (${DEV_USER_ID}, ${DEV_USER_EMAIL}, ${DEV_USER_PASSWORD_HASH}, ${'Local'}, ${'Developer'})
+                    ON CONFLICT (id) DO NOTHING`);
 }

@@ -4,7 +4,9 @@ services:
     container_name: phpm-postgres
     restart: unless-stopped
     ports:
-      - '5432:5432'
+      # Override with POSTGRES_HOST_PORT when host port 5432 is occupied
+      # (e.g. another PostgreSQL container). Defaults to the standard 5432.
+      - '${POSTGRES_HOST_PORT:-5432}:5432'
     environment:
       POSTGRES_USER: neondb_owner
       POSTGRES_PASSWORD: password
