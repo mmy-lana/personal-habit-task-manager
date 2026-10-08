@@ -5,6 +5,7 @@ import { validateEnvironment } from './config/index.js';
 import { HabitsModule } from './modules/habits/habits.module.js';
 import { ProjectsModule } from './modules/projects/projects.module.js';
 import { TasksModule } from './modules/tasks/tasks.module.js';
+import { AnalyticsModule } from './modules/analytics/analytics.module.js';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TasksModule } from './modules/tasks/tasks.module.js';
     HabitsModule,
     ProjectsModule,
     TasksModule,
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [],

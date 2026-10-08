@@ -36,11 +36,11 @@
   - [x] Implement touch-friendly mobile action sheets for task status transitions.
   - [x] Verify database constraint checks for cascading deletions and orphaned tasks.
 
-- [ ] Task 5: Feature Module 3 (Corporate Dashboard & Aggregated Analytics) end-to-end implementation
-  - [ ] Implement NestJS analytics aggregation service compiling daily completion metrics.
-  - [ ] Build Angular `DashboardSignalStore` consuming unified habits and tasks data feeds.
-  - [ ] Assemble responsive overview page displaying streak counters, pending task matrices, and habit completion rings.
-  - [ ] Integrate mobile navigation bottom drawer switching seamlessly to top navigation at 768px and desktop rail at 1024px.
+- [x] Task 5: Feature Module 3 (Corporate Dashboard & Aggregated Analytics) end-to-end implementation
+  - [x] Implement NestJS analytics aggregation service compiling daily completion metrics.
+  - [x] Build Angular `DashboardSignalStore` consuming unified habits and tasks data feeds.
+  - [x] Assemble responsive overview page displaying streak counters, pending task matrices, and habit completion rings.
+  - [x] Integrate mobile navigation bottom drawer switching seamlessly to top navigation at 768px and desktop rail at 1024px.
 
 - [ ] Task 6: Routing shell, responsive page assembly, and production build verification
   - [ ] Configure Angular router with standalone lazy routes and auth guards.
