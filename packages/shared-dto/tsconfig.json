@@ -1,7 +1,13 @@
 {
   "extends": "@repo/tsconfig/base.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "rootDir": "./src",
+    "noEmit": true,
+    "types": [],
+
+    // Must match tsconfig.build.json so typecheck validates the emitted shape.
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
   },
   "include": ["src/**/*"]
 }

@@ -1,0 +1,15 @@
+{
+  "extends": "@repo/tsconfig/base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "types": [],
+
+    // class-validator/class-transformer DTOs rely on legacy decorator emit. The flag is
+    // enabled per package rather than in the base preset so plain packages (database)
+    // stay decorator-free.
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
+  },
+  "include": ["src/**/*"]
+}

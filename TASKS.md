@@ -1,12 +1,12 @@
 # Implementation Master Checklist
 
-- [ ] Task 1: Environment baseline, types, and DB client initializers
-  - [ ] Initialize monorepo workspace configuration using pnpm and Turborepo.
-  - [ ] Define shared TypeScript configuration presets in `packages/tsconfig`.
-  - [ ] Setup Drizzle ORM configuration and Neon PostgreSQL connection client in `packages/database`.
-  - [ ] Document application-layer transaction standard (zero DB triggers; `habit_streaks` zero-rows inserted in repository transaction).
-  - [ ] Configure environment variable validation schemas for both web and api projects.
-  - [ ] Implement database migration runner targeting Neon PostgreSQL.
+- [x] Task 1: Environment baseline, types, and DB client initializers
+  - [x] Initialize monorepo workspace configuration using pnpm and Turborepo.
+  - [x] Define shared TypeScript configuration presets in `packages/tsconfig`.
+  - [x] Setup Drizzle ORM configuration and Neon PostgreSQL connection client in `packages/database`.
+  - [x] Document application-layer transaction standard (zero DB triggers; `habit_streaks` zero-rows inserted in repository transaction).
+  - [x] Configure environment variable validation schemas for both web and api projects.
+  - [x] Implement database migration runner targeting Neon PostgreSQL.
 
 - [ ] Task 2: Core design system primitives and atomic UI components
   - [ ] Establish modern corporate deep blue Tailwind v4 design tokens in `packages/tailwind-config`.

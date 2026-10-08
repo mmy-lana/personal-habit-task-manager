@@ -2,10 +2,15 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "ES2022",
+    "lib": ["ES2022"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "noEmitOnError": true,
+
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -14,8 +19,10 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true

@@ -2,7 +2,7 @@
   "extends": "@repo/tsconfig/angular.json",
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
-    "baseUrl": "./"
+    "types": []
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../../packages/ui/src/**/*"]
 }

@@ -3,12 +3,38 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./common": "./src/common/index.ts",
-    "./habits": "./src/habits/index.ts",
-    "./tasks": "./src/tasks/index.ts",
-    "./users": "./src/users/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./common": {
+      "types": "./dist/common/index.d.ts",
+      "default": "./dist/common/index.js"
+    },
+    "./habits": {
+      "types": "./dist/habits/index.d.ts",
+      "default": "./dist/habits/index.js"
+    },
+    "./tasks": {
+      "types": "./dist/tasks/index.d.ts",
+      "default": "./dist/tasks/index.js"
+    },
+    "./users": {
+      "types": "./dist/users/index.d.ts",
+      "default": "./dist/users/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
     "class-transformer": "latest",
@@ -16,6 +42,6 @@
   },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
-    "typescript": "latest"
+    "typescript": "~6.0.3"
   }
 }

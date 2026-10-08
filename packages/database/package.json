@@ -3,13 +3,29 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./schema": "./src/schema/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "default": "./dist/schema/index.js"
+    },
+    "./package.json": "./package.json"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
+    "typecheck": "tsc -p tsconfig.json",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:check": "drizzle-kit check",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "node dist/migrate.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "latest",
@@ -17,7 +33,8 @@
   },
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
+    "@types/node": "latest",
     "drizzle-kit": "latest",
-    "typescript": "latest"
+    "typescript": "~6.0.3"
   }
 }

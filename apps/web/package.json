@@ -31,7 +31,7 @@
     "@repo/tsconfig": "workspace:*",
     "@tailwindcss/vite": "latest",
     "tailwindcss": "latest",
-    "typescript": "latest",
+    "typescript": "~6.0.3",
     "vite": "latest"
   }
 }

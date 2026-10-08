@@ -1,14 +1,22 @@
 {
   "name": "personal-habit-task-manager",
   "private": true,
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "turbo run db:generate",
+    "db:check": "turbo run db:check",
+    "db:migrate": "turbo run db:migrate"
   },
   "devDependencies": {
     "turbo": "latest",
-    "typescript": "latest"
+    "typescript": "~6.0.3"
   }
 }

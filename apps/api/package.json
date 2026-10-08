@@ -38,6 +38,6 @@
     "@types/express": "latest",
     "@types/node": "latest",
     "@types/passport-jwt": "latest",
-    "typescript": "latest"
+    "typescript": "~6.0.3"
   }
 }
