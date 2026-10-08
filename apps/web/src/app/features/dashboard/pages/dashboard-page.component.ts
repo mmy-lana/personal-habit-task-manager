@@ -94,6 +94,7 @@ import { CardComponent } from '@repo/ui/card';
               <div class="flex-1 flex flex-col items-center gap-1">
                 <div
                   class="w-full bg-[#0077b6] rounded-t transition-all"
+                  [class.min-h-[6px]]="(day.habitsCompleted + day.tasksCompleted) > 0"
                   [style.height.%]="barHeight(day.habitsCompleted + day.tasksCompleted)"
                 ></div>
                 <span class="text-[10px] text-[#64748b] font-mono">{{ day.date | slice:-5 }}</span>
@@ -126,6 +127,10 @@ export class DashboardPageComponent implements OnInit {
 
   barHeight(value: number): number {
     const max = Math.max(...this.store.summary().dailyMetrics.map((d) => d.habitsCompleted + d.tasksCompleted), 1);
-    return Math.min((value / max) * 100, 100);
+    if (value > 0) {
+      // Enforce a minimum visible baseline (8%) so low-activity days stay visible.
+      return Math.max(Math.round((value / max) * 100), 8);
+    }
+    return 0;
   }
 }
