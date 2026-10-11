@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { TaskWithProjectDetail, TaskStatus } from '@repo/shared-dto';
 import { BadgeComponent } from '@repo/ui/badge';
@@ -56,8 +56,6 @@ const STATUS_OPTIONS: TaskStatus[] = ['BACKLOG', 'TODO', 'IN_PROGRESS', 'IN_REVI
     </div>
   `,
 })
-import { signal } from '@angular/core';
-
 export class TaskCardComponent {
   @Input({ required: true }) task!: TaskWithProjectDetail;
 

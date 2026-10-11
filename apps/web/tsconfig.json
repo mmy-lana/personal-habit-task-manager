@@ -1,6 +1,7 @@
 {
   "extends": "@repo/tsconfig/angular.json",
   "compilerOptions": {
+    "rootDir": "../..",
     "outDir": "./dist/out-tsc",
     "types": [],
     "ignoreDeprecations": "6.0",
@@ -18,5 +19,5 @@
       "rxjs/*": ["./node_modules/rxjs/*"]
     }
   },
-  "include": ["src/**/*", "../../packages/ui/src/**/*"]
+  "include": ["src/**/*"]
 }
