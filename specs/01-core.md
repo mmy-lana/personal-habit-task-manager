@@ -171,10 +171,11 @@ export interface RefreshTokenRequestDto {
 - The seed MUST be idempotent: `INSERT ... ON CONFLICT (id) DO NOTHING`.
 - In non-auth development mode, all foreign keys bound to `users(id)` MUST resolve against this row, preventing foreign key lockout on insert.
 
-### 7. Atomic Optimistic Concurrency Enforcement (DATA-01)
+### 7. Atomic Optimistic Concurrency Enforcement (DATA-01, DATA-08)
 
-- Optimistic concurrency (`clientUpdatedAt`) MUST be enforced atomically inside the `UPDATE` statement itself, never via a separate read-then-write check:
+- Optimistic concurrency (`clientUpdatedAt`) MUST be enforced atomically inside the `UPDATE` statement itself using millisecond-truncated timestamp equality:
   ```sql
-  UPDATE tasks SET ... WHERE id = :id AND user_id = :userId AND updated_at = :clientUpdatedAt
+  UPDATE tasks SET ... WHERE id = :id AND user_id = :userId AND date_trunc('milliseconds', updated_at) = date_trunc('milliseconds', :clientUpdatedAt::timestamptz)
   ```
+- Truncating to milliseconds prevents false 409 conflict aborts caused by PostgreSQL microsecond storage (6 digits) vs. JavaScript ISO-8601 millisecond serialization (3 digits).
 - If the statement affects 0 rows while `clientUpdatedAt` was supplied, the repository MUST raise a `ConflictError` (→ HTTP 409) immediately, eliminating the TOCTOU race condition inherent to `SELECT`-then-`UPDATE` sequences.

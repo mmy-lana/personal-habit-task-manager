@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { eq, and, desc } from '@repo/database';
+import { eq, and, desc, sql } from '@repo/database';
 import {
   type DatabaseClient,
   tasks as tasksTable,
@@ -60,13 +60,17 @@ export class TasksRepository {
     if (dto.projectId !== undefined) updates['projectId'] = dto.projectId;
     if (dto.dueDate !== undefined) updates['dueDate'] = dto.dueDate ? new Date(dto.dueDate) : null;
 
-    // DATA-01: optimistic concurrency is enforced atomically in SQL. When
-    // `clientUpdatedAt` is supplied it joins the `where` predicate, so the
-    // compare-and-swap happens in a single statement — a concurrent writer
-    // between the client's read and this write yields 0 affected rows, which
-    // maps to ConflictError (HTTP 409) with no TOCTOU read-then-write window.
+    // DATA-01 / DATA-08: optimistic concurrency is enforced atomically in SQL.
+    // Truncate timestamps to milliseconds (date_trunc) to reconcile PostgreSQL
+    // microsecond precision (6 decimal places) with JavaScript ISO-8601 strings
+    // (3 decimal places), avoiding false 409 conflict aborts.
     const conditions = [eq(tasksTable.id, id), eq(tasksTable.userId, userId)];
-    if (dto.clientUpdatedAt) conditions.push(eq(tasksTable.updatedAt, new Date(dto.clientUpdatedAt)));
+    if (dto.clientUpdatedAt) {
+      const isoDate = new Date(dto.clientUpdatedAt).toISOString();
+      conditions.push(
+        sql`date_trunc('milliseconds', ${tasksTable.updatedAt}) = date_trunc('milliseconds', ${isoDate}::timestamptz)`,
+      );
+    }
 
     const result = await this.db
       .update(tasksTable)
@@ -83,9 +87,14 @@ export class TasksRepository {
   }
 
   async updateStatus(id: string, userId: string, dto: UpdateTaskStatusDto) {
-    // DATA-01: same atomic compare-and-swap contract as `update`.
+    // DATA-01 / DATA-08: same atomic compare-and-swap contract as `update`.
     const conditions = [eq(tasksTable.id, id), eq(tasksTable.userId, userId)];
-    if (dto.clientUpdatedAt) conditions.push(eq(tasksTable.updatedAt, new Date(dto.clientUpdatedAt)));
+    if (dto.clientUpdatedAt) {
+      const isoDate = new Date(dto.clientUpdatedAt).toISOString();
+      conditions.push(
+        sql`date_trunc('milliseconds', ${tasksTable.updatedAt}) = date_trunc('milliseconds', ${isoDate}::timestamptz)`,
+      );
+    }
 
     const completedAt = dto.status === 'COMPLETED' ? new Date() : null;
     const result = await this.db

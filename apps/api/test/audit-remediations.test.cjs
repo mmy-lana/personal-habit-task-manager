@@ -182,6 +182,20 @@ test("DATA-01: update without clientUpdatedAt does not raise on 0 rows", async (
   assert.equal(result, null, "plain updates keep null-result semantics (NotFound handled upstream)");
 });
 
+test("DATA-08: updateStatus with millisecond-truncated timestamp generates valid CAS predicate", async () => {
+  const row = { id: "t1", status: "TODO" };
+  const db = makeDb({ updateResults: [[row]] });
+  const repo = new TasksRepository(db);
+
+  const result = await repo.updateStatus("t1", "u1", {
+    status: "TODO",
+    clientUpdatedAt: "2026-10-11T05:51:00.123Z",
+  });
+  assert.equal(result.id, "t1");
+  const predicates = db.capture.predicates["update"];
+  assert.equal(predicates.length, 1, "must append atomic millisecond-truncated CAS condition");
+});
+
 // ---------------------------------------------------------------------------
 // [DATA-03] — HabitsRepository.removeLog
 // ---------------------------------------------------------------------------
