@@ -123,6 +123,15 @@ export class TaskSignalStore {
       } else {
         this.errorState.set('Status update failed. Reverting changes.');
       }
+      setTimeout(() => {
+        if (this.errorState()) {
+          this.errorState.set(null);
+        }
+      }, 5000);
     }
+  }
+
+  clearError(): void {
+    this.errorState.set(null);
   }
 }
