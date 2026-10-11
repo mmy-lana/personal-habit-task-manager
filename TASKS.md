@@ -50,11 +50,19 @@
   - [x] Execute full production pipeline build and schema verification check.
 
 - [x] Task 7: Audit Defect Verification & Remediation
-  - [x] [SEC-01] Seed default development user (`00000000-0000-0000-0000-000000000000`) on migration/bootstrap; verify foreign keys resolve.
+  - [x] [SEC-01] Seed default development user (`00000000-0000-0000-0000-000000000000`) on migration/bootstrap; guard against production execution.
   - [x] [DATA-01] Replace TOCTOU read-then-write checks with atomic `WHERE updated_at = :clientUpdatedAt` predicates in tasks repository.
   - [x] [DATA-02] Move task filtering (`projectId`, `status`, `priority`) into SQL via dynamic Drizzle `where` conditions.
   - [x] [DATA-03] Guard `removeLog`: verify deleted-row count before acquiring streak locks / recalculating streaks.
+  - [x] [DATA-07] Enforce minimum height baseline on dashboard 7-day activity telemetry bars.
+  - [x] [DATA-08] Reconcile PostgreSQL microsecond timestamp precision with JavaScript ISO strings via date_trunc in atomic CAS queries.
   - [x] [UX-01] Enforce 44px touch targets on `TaskCardComponent` status selector.
+  - [x] [UX-04] Bind `[selected]="s === task.status"` on task card status selector options.
+  - [x] [UX-05] Restructure task card layout to eliminate title truncation across desktop Kanban columns.
+  - [x] [UX-06] Decouple error notification banners from board unmounting and add auto-dismiss timer.
+  - [x] [UX-07] Add transient in-flight locking on task card status selector to prevent duplicate concurrent submissions.
+  - [x] [HYG-01] Replace decorative fire emoji with monochrome inline SVG icon.
+  - [x] [FE-02] Configure rootDir layout in `apps/web/tsconfig.json` and resolve TypeScript 6 deprecations.
   - [x] [SEC-03] Add safe-area inset fallback padding (`pb-4`) to mobile navigation shell.
   - [x] Provision local database via `docker-compose.yml` with healthcheck and seed integration.
-  - [x] Verify: `pnpm turbo run typecheck` (zero errors), `pnpm --filter api test` (passing), headless browser e2e smoke test (passing), `pnpm turbo run build` (clean).
+  - [x] Verify: `pnpm turbo run typecheck` (zero errors), `pnpm --filter api test` (passing), headless browser e2e smoke test including 360px mobile viewport (passing), `pnpm turbo run build` (clean).

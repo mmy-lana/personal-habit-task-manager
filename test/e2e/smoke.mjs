@@ -136,6 +136,17 @@ function check(name, condition, detail = '') {
 // ---------------------------------------------------------------------------
 // Smoke test
 // ---------------------------------------------------------------------------
+let apiProcess;
+const isApiRunning = await fetch(`${API}/health`).then((r) => r.ok).catch(() => false);
+if (!isApiRunning) {
+  const apiDist = join(ROOT, 'apps', 'api', 'dist', 'main.js');
+  apiProcess = spawn('node', [apiDist], {
+    cwd: join(ROOT, 'apps', 'api'),
+    stdio: 'ignore',
+    env: { ...process.env, PORT: String(API_PORT) },
+  });
+}
+
 const server = await startServer();
 let browser;
 try {
@@ -237,6 +248,18 @@ try {
     `all=${allTasks} filtered=${filteredTasks} server=${serverFiltered.length}`,
   );
 
+  // 4. Mobile viewport (360px) responsive layout verification
+  await page.setViewport({ width: 360, height: 740 });
+  await page.goto(`http://localhost:${STATIC_PORT}/tasks`, { waitUntil: 'networkidle0', timeout: 30_000 });
+  const mobileNav = await page.$('nav.md\\:hidden');
+  const mobileCards = await page.$$eval('.grid.grid-cols-1.md\\:hidden app-task-card', (els) => els.length);
+  const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+  check(
+    'mobile 360px layout renders single-column tasks with zero horizontal overflow',
+    !horizontalOverflow && mobileCards > 0 && mobileNav !== null,
+    `overflow=${horizontalOverflow} cards=${mobileCards}`,
+  );
+
   process.exitCode = failures === 0 ? 0 : 1;
   process.stdout.write(`\n${failures === 0 ? 'ALL CHECKS PASSED' : `${failures} CHECK(S) FAILED`}\n`);
 } catch (err) {
@@ -245,5 +268,6 @@ try {
   process.stdout.write(`FATAL: ${err?.stack ?? err}\n`);
 } finally {
   if (browser) await browser.close().catch(() => {});
+  if (apiProcess) apiProcess.kill('SIGTERM');
   server.close();
 }
